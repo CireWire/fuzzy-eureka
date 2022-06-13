@@ -60,5 +60,60 @@ Values (1, 'Cafe Chico', 'Laredo', 'TX'),
 (3, 'The Coffee Bean', 'Arcadia', 'CA');
 
 /* Adding data to Coffee table */
+INSERT INTO Coffee(coffee_id, coffee_name, price_per_pound)
+VALUES (1, 'Cabana Nights', 15.25),
+(2, 'Dark Blonde' , 12.95),
+(3, 'Verrado Blend' , 11.25);
 
 /* Adding data to Supplier table */
+INSERT INTO Supplier(supplier_id, company_name, country, sales_contact_name, email)
+VALUES (1, 'Bean Barons LLC.', 'United States of America', "Pedro Pascal", "mando20@beanbarons.com"),
+(2, "Best Coffee Inc.", "Philippines", "Candice Sanchez", 'csanchez@bestcoffee.com'),
+(3, "Imported Flavor", "Canada", 'John Mayer', 'jmayer2@importedflavor.com');
+
+/* Set Shop ID for each employee */
+UPDATE Employee
+SET shop_id = 1
+WHERE employee_id = 1;
+
+UPDATE Employee
+SET shop_id = 2
+WHERE employee_id = 2;
+
+UPDATE Employee
+SET shop_id = 3
+WHERE employee_id = 3;
+
+/* Set shop and supplier ID for each coffee */
+UPDATE Coffee
+SET shop_id = 1 , supplier_id = 1
+WHERE coffee_id = 3;
+
+UPDATE Coffee
+SET shop_id = 2 , supplier_id = 2
+WHERE coffee_id = 1;
+
+UPDATE Coffee
+SET shop_id = 3 , supplier_id = 3
+WHERE coffee_id = 2;
+
+/* Creating a view and concatenating employee's name */
+CREATE VIEW concat_names AS
+SELECT CONCAT(first_name, ' ', last_name) AS employee_full_name, employee_id, hire_date, job_title, shop_id
+FROM Employee
+WHERE first_name IS NOT NULL AND last_name IS NOT NULL;
+
+/* Creating an index with the coffee_name field */
+CREATE INDEX coffee_index
+ON Coffee (coffee_name);
+
+/* Creating a SFW query for Coffee Shop table */
+SELECT * FROM Coffee_Shop
+Where state = 'AZ';
+
+/* Creating a query to join three tables and include all attributes */
+SELECT * FROM Employee
+JOIN Coffee_Shop
+ON Employee.shop_id = Coffee_Shop.shop_id
+JOIN Coffee
+ON Coffee_Shop.shop_id = Coffee.shop_id
